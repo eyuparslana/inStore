@@ -33,7 +33,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	default:
 		err := http.StatusText(http.StatusMethodNotAllowed)
-		response.Error = err
+		response.Error =err
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		utils.CreateResponse(w, &response)
 		return

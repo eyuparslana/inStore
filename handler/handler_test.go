@@ -10,7 +10,6 @@ import (
 
 func TestSet(t *testing.T) {
 	requestBody := map[string]string{
-		"key":   "test-key",
 		"value": "test-value",
 	}
 
