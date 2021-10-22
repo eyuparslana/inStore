@@ -26,6 +26,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	defer RecoverPanic(r, response)
 	switch r.Method {
 	case http.MethodGet:
+		w.WriteHeader(http.StatusOK)
 		utils.CreateResponse(w, &InMemDB)
 		return
 	default:
@@ -61,13 +62,13 @@ func Set(w http.ResponseWriter, r *http.Request) {
 
 		if !okKey {
 			response.Error = KeyError
+			w.WriteHeader(http.StatusBadRequest)
+			utils.CreateResponse(w, &response)
+			return
 		}
 
 		if !okValue {
 			response.Error = ValueError
-		}
-
-		if response.Error != "" {
 			w.WriteHeader(http.StatusBadRequest)
 			utils.CreateResponse(w, &response)
 			return

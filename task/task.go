@@ -17,7 +17,7 @@ import (
 // Duration: Defines how often the export runs, in minutes.
 const (
 	JsonFileNameFormat = "%d_inStoreData.json"
-	Duration           = 10
+	Duration           = 120
 )
 
 //CheckExistingData runs when the application is up. If there is any exported data,
