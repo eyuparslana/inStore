@@ -1,13 +1,13 @@
 name: Lint Go Code
-
-on:
-  push:
-    branches:
-      - master
+on: [ push ]
 
 jobs:
   lint:
     runs-on: macos-latest
     steps:
+      - name: Install Go
+        uses: actions/setup-go@master
+      - name: Checkout code
+        uses: actions/checkout@master
       - name: Lint
         run: go fmt ./...
