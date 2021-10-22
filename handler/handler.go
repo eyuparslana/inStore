@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"inStore/logger"
 	"inStore/utils"
 )
 
@@ -56,27 +58,32 @@ func Set(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	switch r.Method {
-	case http.MethodGet:
-		ReqKey, okKey := r.URL.Query()["key"]
-		ReqValue, okValue := r.URL.Query()["value"]
+	case http.MethodPost:
+		var body LoginRequest
+		err := json.NewDecoder(r.Body).Decode(&body)
+		if err != nil {
+			logger.Error.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			utils.CreateResponse(w, nil)
+			return
+		}
 
-		if !okKey {
+		if body.Key == "" {
 			response.Error = KeyError
 			w.WriteHeader(http.StatusBadRequest)
 			utils.CreateResponse(w, &response)
 			return
 		}
 
-		if !okValue {
+		if body.Value == "" {
 			response.Error = ValueError
 			w.WriteHeader(http.StatusBadRequest)
 			utils.CreateResponse(w, &response)
 			return
 		}
 
-		key, value := ReqKey[0], ReqValue[0]
-		StoreData(key, value)
-		response.Result = fmt.Sprintf(SetResponsePattern, value, key)
+		StoreData(body.Key, body.Value)
+		response.Result = fmt.Sprintf(SetResponsePattern, body.Value, body.Key)
 		w.WriteHeader(http.StatusCreated)
 		utils.CreateResponse(w, &response)
 		return

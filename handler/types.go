@@ -14,3 +14,9 @@ type ApiResponse struct {
 	Error  string `json:"error,omitempty"`
 	Result string `json:"result,omitempty"`
 }
+
+// LoginRequest represent the request body of set request
+type LoginRequest struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}

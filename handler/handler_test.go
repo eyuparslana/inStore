@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -8,21 +9,23 @@ import (
 )
 
 func TestSet(t *testing.T) {
-	requestParams := map[string]string{
+	requestBody := map[string]string{
 		"key":   "test-key",
 		"value": "test-value",
 	}
 
 	wantStatus := 201
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/set", nil)
+	bodyData, err := json.Marshal(requestBody)
+	if err != nil {
+		t.Fatal("TestSet Error when json.Marshal: ", err)
+	}
+	bufferData := bytes.NewBuffer(bodyData)
+
+	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
-	q := req.URL.Query()
-	for key, value := range requestParams {
-		q.Add(key, value)
-	}
-	req.URL.RawQuery = q.Encode()
+
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -38,22 +41,24 @@ func TestSet(t *testing.T) {
 }
 
 func TestSetKeyError(t *testing.T) {
-	requestParams := map[string]string{
+	requestBody := map[string]string{
 		"value": "test-value",
 	}
 
 	wantStatus := 400
 	wantError := "The 'key' is required."
 	var response map[string]string
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/set", nil)
+	bodyData, err := json.Marshal(requestBody)
+	if err != nil {
+		t.Fatal("TestSet Error when json.Marshal: ", err)
+	}
+	bufferData := bytes.NewBuffer(bodyData)
+
+	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
-	q := req.URL.Query()
-	for key, value := range requestParams {
-		q.Add(key, value)
-	}
-	req.URL.RawQuery = q.Encode()
+
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -83,22 +88,24 @@ func TestSetKeyError(t *testing.T) {
 }
 
 func TestSetValueError(t *testing.T) {
-	requestParams := map[string]string{
+	requestBody := map[string]string{
 		"key": "test-key",
 	}
 
 	wantStatus := 400
 	wantError := "The 'value' is required."
 	var response map[string]string
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/set", nil)
+
+	bodyData, err := json.Marshal(requestBody)
+	if err != nil {
+		t.Fatal("TestSet Error when json.Marshal: ", err)
+	}
+	bufferData := bytes.NewBuffer(bodyData)
+	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
-	q := req.URL.Query()
-	for key, value := range requestParams {
-		q.Add(key, value)
-	}
-	req.URL.RawQuery = q.Encode()
+
 	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
