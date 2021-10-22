@@ -21,7 +21,9 @@ Example Response:
 */
 func Home(w http.ResponseWriter, r *http.Request) {
 	response := new(ApiResponse)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	defer RecoverPanic(r, response)
 	switch r.Method {
 	case http.MethodGet:
 		utils.CreateResponse(w, &InMemDB)
@@ -50,6 +52,7 @@ Example Response:
 func Set(w http.ResponseWriter, r *http.Request) {
 	response := new(ApiResponse)
 	defer RecoverPanic(r, response)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	switch r.Method {
 	case http.MethodGet:
@@ -99,6 +102,7 @@ Example Response:
 */
 func Get(w http.ResponseWriter, r *http.Request) {
 	response := new(ApiResponse)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	defer RecoverPanic(r, response)
 	switch r.Method {
@@ -143,6 +147,7 @@ Example Response:
 */
 func Flush(w http.ResponseWriter, r *http.Request) {
 	response := new(ApiResponse)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	defer RecoverPanic(r, response)
 	switch r.Method {
@@ -151,7 +156,7 @@ func Flush(w http.ResponseWriter, r *http.Request) {
 		response.Result = FlushResponse
 		w.WriteHeader(http.StatusNoContent)
 		return
-	default: 
+	default:
 		err := http.StatusText(http.StatusMethodNotAllowed)
 		response.Error = err
 		w.WriteHeader(http.StatusMethodNotAllowed)
