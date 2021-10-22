@@ -1,9 +1,5 @@
-push:
-  branches:
-    - master
-
 name: Test
-
+on: [ push ]
 jobs:
   test:
     steps:
