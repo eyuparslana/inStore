@@ -1,8 +1,8 @@
-name: Lint Go Code
+name: Lint & Test
 on: [ push ]
 
 jobs:
-  lint:
+  lint-and-test:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
@@ -10,3 +10,5 @@ jobs:
         with:
           go-version: '1.16'
       - run: go fmt ./...
+      - run: go run main.go &
+      - run: go test ./handler
