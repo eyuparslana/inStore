@@ -1,4 +1,8 @@
 # [START runtime]
-runtime: go
+runtime: go116
 env: flex
+env_variables:
+  API_PORT: 8080
+  EXPORT_FILE_PATH: ./output
+main: .
 # [END runtime]
