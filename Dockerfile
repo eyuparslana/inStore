@@ -3,7 +3,7 @@ FROM golang:alpine
 
 ENV GO111MODULE=on
 ENV API_PORT=8080
-ENV EXPORT_FILE_PATH=/app/output
+ENV EXPORT_FILE_PATH=/./output
 WORKDIR /app
 COPY . ./
 RUN go build -o /in-store
