@@ -3,10 +3,23 @@ package handler
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"testing"
 )
+
+var API_PORT string
+var BASE_URL string
+
+func init() {
+	API_PORT = os.Getenv("API_PORT")
+	if API_PORT == "" {
+		API_PORT = "8080"
+	}
+	BASE_URL = fmt.Sprintf("http://localhost:%s", API_PORT)
+}
 
 func TestSet(t *testing.T) {
 	requestBody := map[string]string{
@@ -21,7 +34,7 @@ func TestSet(t *testing.T) {
 	}
 	bufferData := bytes.NewBuffer(bodyData)
 
-	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
+	req, err := http.NewRequest(http.MethodPost, BASE_URL+"/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -54,7 +67,7 @@ func TestSetKeyError(t *testing.T) {
 	}
 	bufferData := bytes.NewBuffer(bodyData)
 
-	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
+	req, err := http.NewRequest(http.MethodPost, BASE_URL+"/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -101,7 +114,7 @@ func TestSetValueError(t *testing.T) {
 		t.Fatal("TestSet Error when json.Marshal: ", err)
 	}
 	bufferData := bytes.NewBuffer(bodyData)
-	req, err := http.NewRequest(http.MethodPost, "http://localhost:8000/set", bufferData)
+	req, err := http.NewRequest(http.MethodPost, BASE_URL+"/set", bufferData)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -141,7 +154,7 @@ func TestSetMethodNotAllowed(t *testing.T) {
 	}
 
 	wantStatus := 405
-	req, err := http.NewRequest(http.MethodDelete, "http://localhost:8000/set", nil)
+	req, err := http.NewRequest(http.MethodDelete, BASE_URL+"/set", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -171,7 +184,7 @@ func TestGet(t *testing.T) {
 	want := "test-value"
 	wantStatus := 200
 	var response map[string]string
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/get", nil)
+	req, err := http.NewRequest(http.MethodGet, BASE_URL+"/get", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -214,7 +227,7 @@ func TestGetNotFoundError(t *testing.T) {
 	wantError := "The key 'test-keys' could not be found."
 	wantStatus := 404
 	var response map[string]string
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/get", nil)
+	req, err := http.NewRequest(http.MethodGet, BASE_URL+"/get", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -252,7 +265,7 @@ func TestGetNotFoundError(t *testing.T) {
 
 func TestHome(t *testing.T) {
 	wantStatus := 200
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/", nil)
+	req, err := http.NewRequest(http.MethodGet, BASE_URL+"/", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
@@ -271,7 +284,7 @@ func TestHome(t *testing.T) {
 
 func TestFlush(t *testing.T) {
 	wantStatus := 204
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8000/flush", nil)
+	req, err := http.NewRequest(http.MethodGet, BASE_URL+"/flush", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
