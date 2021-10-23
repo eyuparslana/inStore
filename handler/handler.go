@@ -33,7 +33,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	default:
 		err := http.StatusText(http.StatusMethodNotAllowed)
-		response.Error =err
+		response.Error = err
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		utils.CreateResponse(w, &response)
 		return
@@ -41,8 +41,8 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
-Set saves the 'key' and 'value' information of the Query into InMemDB.
-It only works with the GET method. For other methods, http.MethodNotAllowed error is returned.
+Set stores the key value in the JSON that comes with the POST request in the inMemDB key value format.
+It only works with the POST method. For other methods, http.MethodNotAllowed error is returned.
 
 Example cURL request:
 	curl --location --request GET '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming'

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	"inStore/config"
@@ -17,7 +18,6 @@ import (
 // Duration: Defines how often the export runs, in minutes.
 const (
 	JsonFileNameFormat = "%d_inStoreData.json"
-	Duration           = 120
 )
 
 //CheckExistingData runs when the application is up. If there is any exported data,
@@ -96,7 +96,11 @@ func saveData(ticker *time.Ticker, quit chan struct{}) {
 
 //StartTask starts the tasks that will run when the application is up.
 func StartTask() {
-	ticker := time.NewTicker(Duration * time.Minute)
+	duration, err := strconv.Atoi(config.RECORD_FREQ)
+	if err != nil {
+		duration = 10
+	}
+	ticker := time.NewTicker(time.Duration(duration) * time.Minute)
 	quit := make(chan struct{})
 	go saveData(ticker, quit)
 }
