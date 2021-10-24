@@ -45,7 +45,7 @@ Set stores the key value in the JSON that comes with the POST request in the inM
 It only works with the POST method. For other methods, http.MethodNotAllowed error is returned.
 
 Example cURL request:
-	curl --location --request GET '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming'
+	curl --location --request POST '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming'
 
 Example Response:
 	{

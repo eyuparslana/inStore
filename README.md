@@ -41,7 +41,7 @@ or you can test the api on the URL below.
 | Endpoints | Descriptions |  Methods | cURL example |
 | :------:| :-----------:| :-----------:| :-----------:|
 | /   | returns all data contained in DB in key value format. | GET | curl --location --request GET '<API_BASE_URL>:<API_PORT>/' |
-| /set | stores the key value in the JSON that comes with the POST request in the inMemDB key value format. |POST| curl --location --request GET '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming' |
+| /set | stores the key value in the JSON that comes with the POST request in the inMemDB key value format. |POST| curl --location --request POST '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming' |
 | /get |Get returns the value corresponding to 'key' in DB. | GET | curl --location --request GET '<API_BASE_URL>:<API_PORT>/get?key=golang' |
 | /flush | Flush deletes all data in DB. | DELETE | curl --location --request DELETE '<API_BASE_URL>:<API_PORT>/flush' |
 
