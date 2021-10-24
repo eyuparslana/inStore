@@ -12,18 +12,19 @@ git clone https://github.com/eyuparslana/inStore.git
 
 + ### Locally
 
-Set the **`API_PORT`**, **`EXPORT_FILE_PATH`** and **`RECORD_FREQ`** environments.
-And run command below in terminal in project directory.
+Set the **`API_PORT`**, **`EXPORT_FILE_PATH`** and **`RECORD_FREQ`** environments. And run command below in terminal in
+project directory.
 
 ```shell
 go run main.go
 ```
-Now, you can send requests to the application either via postman, swagger or browser (GET requests only) according to the following endpoint table.
+
+Now, you can send requests to the application either via postman, swagger or browser (GET requests only) according to
+the following endpoint table.
 
 + ### With Docker
 
-If you have docker installed on your system, you can run the project with docker.
-Run command below on terminal.
+If you have docker installed on your system, you can run the project with docker. Run command below on terminal.
 
 ````shell
 docker-compose up -d
@@ -37,11 +38,11 @@ or you can test the api on the URL below.
 
 ## Endpoint Table
 
-| Endpoints | Descriptions |  Methods |
-| :------:| :-----------:| :-----------:|
-| /   | returns all data contained in DB in key value format. | GET |
-| /set | stores the key value in the JSON that comes with the POST request in the inMemDB key value format. |POST|
-| /get |Get returns the value corresponding to 'key' in DB. | GET |
-| /flush | Flush deletes all data in DB. | GET |
+| Endpoints | Descriptions |  Methods | cURL example |
+| :------:| :-----------:| :-----------:| :-----------:|
+| /   | returns all data contained in DB in key value format. | GET | curl --location --request GET '<API_BASE_URL>:<API_PORT>/' |
+| /set | stores the key value in the JSON that comes with the POST request in the inMemDB key value format. |POST| curl --location --request GET '<API_BASE_URL>:<API_PORT>/set?key=golang&value=programming' |
+| /get |Get returns the value corresponding to 'key' in DB. | GET | curl --location --request GET '<API_BASE_URL>:<API_PORT>/get?key=golang' |
+| /flush | Flush deletes all data in DB. | DELETE | curl --location --request DELETE '<API_BASE_URL>:<API_PORT>/flush' |
 
 
