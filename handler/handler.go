@@ -143,10 +143,10 @@ func Get(w http.ResponseWriter, r *http.Request) {
 
 /*
 Flush deletes all data in InMemDB.
-It only works with the GET method. For other methods, http.MethodNotAllowed error is returned.
+It only works with the DELETE method. For other methods, http.MethodNotAllowed error is returned.
 
 Example cURL request:
-	curl --location --request GET '<API_BASE_URL>:<API_PORT>/flush'
+	curl --location --request DELETE '<API_BASE_URL>:<API_PORT>/flush'
 
 Example Response:
 	{
@@ -159,7 +159,7 @@ func Flush(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	defer RecoverPanic(r, response)
 	switch r.Method {
-	case http.MethodGet:
+	case http.MethodDelete:
 		InMemDB = make(map[string]string)
 		response.Result = FlushResponse
 		w.WriteHeader(http.StatusNoContent)

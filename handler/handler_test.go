@@ -284,7 +284,7 @@ func TestHome(t *testing.T) {
 
 func TestFlush(t *testing.T) {
 	wantStatus := 204
-	req, err := http.NewRequest(http.MethodGet, BASE_URL+"/flush", nil)
+	req, err := http.NewRequest(http.MethodDelete, BASE_URL+"/flush", nil)
 	if err != nil {
 		t.Fatal("TestSet Error when NewRequest: ", err)
 	}
